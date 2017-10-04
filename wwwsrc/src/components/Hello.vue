@@ -1,12 +1,6 @@
 <template>
-  <div class="hello">
-    <h1>Welcome to Keepr</h1>
-    <p>Get Started</p>
-    <ul>
-      <li><router-link to="login">Login</router-link></li>
-      <li><router-link to="register">Register</router-link></li>
-    </ul>
-    <hr>
+  <div class="yo">
+  <h1 class="slogan">Welcome to Keepr</h1>
   </div>
 </template>
 
@@ -25,6 +19,7 @@ export default {
 <style scoped>
 h1, h2 {
   font-weight: normal;
+  
 }
 
 ul {
@@ -39,5 +34,22 @@ li {
 
 a {
   color: #42b983;
+}
+
+.hello {
+ 
+}
+.yo {
+   background-image: url('http://www.tinywriters.com/wp-content/uploads/2015/05/places-for-finding-photos-picjumbo-1.jpg');
+  background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    margin-top: -40px;
+    margin-bottom: -900px;
+    height: 100vh;
+}
+.slogan {
+  padding-top:90px;
 }
 </style>

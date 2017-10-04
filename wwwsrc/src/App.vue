@@ -1,13 +1,17 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.jpg">
+    <navbar></navbar>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+ import navbar from './components/NavBar'
 export default {
   name: 'app',
+  components: {
+    navbar
+  }
 }
 </script>
 
