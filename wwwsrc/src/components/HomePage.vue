@@ -1,92 +1,52 @@
 <template>
     <div class="container-fluid">
         <div class="home">
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <button class="btn btn-primary" @click="displayModal = true">Upload Keep</button>
-    </div>
-
-</div>
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-6">
-                    <div class="panel">
-                        <div class="row">
-                            <div class="col-xs-4 col-sm-4">
-                                <br>
-                                <p>UserName</p>
-                            </div>
-                            <div class="col-xs-4 col-sm-4">
-                                <br>
-                                <img src="http://via.placeholder.com/350x150" alt="">
-
-                            </div>
-                            <div class="col-xs-4 col-sm-4">
-                                <br>
-                                <p>10/02/2017</p>
-                            </div>
-
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-xs-3 col-sm-3">
-
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6">
-
-                                <p>text describing picture</p>
-                            </div>
-                            <div class="col-xs-3 col-sm-3">
-                                <button class="btn btn-primary" @click="showModal = true">
-                            Add to Vaults
-                        </button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12 col-sm-12 col-md-6">
-                    <div class="panel">
-                        <div class="row">
-                            <div class="col-xs-4 col-sm-4">
-                                <br>
-                                <p>UserName</p>
-                            </div>
-                            <div class="col-xs-4 col-sm-4">
-                                <br>
-                                <img src="http://via.placeholder.com/350x150" alt="">
-
-                            </div>
-                            <div class="col-xs-4 col-sm-4">
-                                <br>
-                                <p>10/02/2017</p>
-                            </div>
-
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-xs-3 col-sm-3 col-md-3">   
-
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6">
-
-                                <p>text describing picture</p>
-                            </div>
-                            <div class="col-xs-3 col-sm-3">
-                                <button class="btn btn-primary" @click="showModal = true">
-                            Add to Vaults
-                        </button>
-                            </div>
-
-                        </div>
-
-                    </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <button class="btn btn-primary" @click="displayModal = true">Upload Keep</button>
                 </div>
 
             </div>
+
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-4" v-for="keep in keeps">
+                    <div class="panel">
+                        <div class="row">
+                            <div v-if="keep.creatorId == user._id" class="col-xs-1 col-sm-1 col-md-1">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </div>
+                            <div class="col-xs-12 col-sm-12">
+                                <center>
+
+                                    <br>
+                                    <img class="keep-image" :src="keep.image" alt="">
+                                    <h3>
+                                        {{keep.name}}
+                                    </h3>
+
+                                    <p>{{keep.description}}</p>
+                                    <button class="add-to-vaults btn btn-primary" @click="getKeepHome(keep)">
+                                        Add to Vaults
+                                    </button>
+                                </center>
+
+                            </div>
+                            
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
         </div>
-        <modaladdtovaults v-if="showModal"></modaladdtovaults>
-        <modaluploadkeep v-if="displayModal"></modaluploadkeep>
+
+        <modaladdtovaults v-if="showModal" @close="showModal = false"></modaladdtovaults>
+        <modaluploadkeep v-if="displayModal" @close="displayModal = false"></modaluploadkeep>
     </div>
 </template>
 
@@ -99,22 +59,71 @@
         components: {
             modaladdtovaults,
             modaluploadkeep
-            
+
         },
         data() {
             return {
-            showModal: false,
-            displayModal: false
+                showModal: false,
+                displayModal: false
+
             }
-        }
+        },
+        mounted() {
+            this.$store.dispatch('getKeepsHome')
+        },
+        computed: {
+            keeps() {
+                return this.$store.state.homekeeps
+            },
+            user() {
+                return this.$store.state.user
+            },
+        },
+        methods: {
+            getKeepHome(keep) {
+                this.$store.state.activeKeep = keep
+                this.showModal = true;
+
+            }
+
+
+        },
+
+
     }
 
 </script>
 
 <style scoped>
     .panel {
-
+        height: 450px;
+        width: 450px;
 
         background-color: pink;
+    }
+
+    .add-to-vaults {}
+
+    .keep-image {
+        width: 250px;
+        height: 250px;
+        border: 2px solid black;
+    }
+
+    .yo {
+        background-image: url('http://sahara-desert-dream.com/wp-content/uploads/2015/04/desert-dream-4.jpg');
+
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    .glyphicon-remove:hover {
+        color: lightblue;
+    }
+
+    .glyphicon-remove {
+        font-size: 20px;
     }
 </style>

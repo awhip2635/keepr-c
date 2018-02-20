@@ -6,12 +6,19 @@
 </template>
 
 <script>
+ import Login from './components/Login'
+ 
  import navbar from './components/NavBar'
 export default {
   name: 'app',
   components: {
+    Login,
     navbar
-  }
+  },
+  mounted() {
+      this.$store.dispatch('getAuth')
+    }
+
 }
 </script>
 
@@ -22,6 +29,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  background-image: url('http://sahara-desert-dream.com/wp-content/uploads/2015/04/desert-dream-4.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
+
+
 </style>

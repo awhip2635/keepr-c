@@ -4,12 +4,12 @@
         
             <form @submit.prevent="register">
                 <h4>
-                Email:
-                <input v-model="email" type="text">
+                    Name:
+                    <input v-model="name" type="text">
                 </h4>
                 <h4>
-                    Username:
-                    <input v-model="username" type="text">
+                Email:
+                <input v-model="email" type="text">
                 </h4>
                 <h4>
                     Password:
@@ -38,27 +38,29 @@
         props: [],
         data() {
             return {
+                    name: '',
                     email: '',
-                    username: '',
                     password: ''
                 
             }
         },
         methods: {
             register() {
+                debugger
                 var obj = {
                     name: this.name,
                     email: this.email,
                     password: this.password
                 }
                 this.$store.dispatch('register', obj)
-                name = '';
+                // name = '';
                 // email = '';
                 // password = '';
             },
             reg() {
                 this.$store.dispatch('reg')
             },
+            
         },
         computed: {
 

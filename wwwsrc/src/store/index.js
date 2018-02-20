@@ -21,13 +21,22 @@ var store = new vuex.Store({
   state: {
     user: {},
     vaults: [],
-    keeps: [],
+    homekeeps: [],
+    activeVault:{},
+    activeKeep: {},
     loggedIn: false,
     registering: false,
-    logging: false
+    logging: false,
+    error: {}
   },
   mutations: {
+    setKeeps(state, data) {
+      state.homekeeps = data
+    },
 
+    setVaults(state, data) {
+      state.vaults = data
+    },
     changeLog(state) {
       state.loggedIn = !state.loggedIn
     },
@@ -44,23 +53,33 @@ var store = new vuex.Store({
     getAuth(state, user) {
       state.user = user
 
-    }
+    },
+    setActiveKeep(state, payload) {
+      state.activeKeep = payload
+    },
+    setActiveVault(state, payload){
+      state.activeVault = payload
+    },
+    handleError(state, err) {
+      state.error = err
+    },
 
   },
   actions: {
 
     login({ commit, dispatch }, obj) {
-      debugger
+
       auth.post("login", obj)
         .then((res) => {
           // console.log(res)
           // res = JSON.parse(res);
           if (res.data.message == "successfully logged in") {
             // router.push('users/' + res.data._id + '/home')
-            dispatch('getAuth')
+            dispatch('getKeepsHome')
             return console.log(res.data.message)
           } else {
             // dispatch('changeLog')
+            alert("Invalid Email or password");
             return console.log(res.data.message)
           }
 
@@ -72,10 +91,10 @@ var store = new vuex.Store({
         .then((res) => {
           // console.log(res)
           // res = JSON.parse(res);
-          if (res.data.message) {
+          if (res.data.message == "Successfully created user account") {
             console.log('account created')
             dispatch('changeLog')
-            router.push('userboards')
+            router.push('home')          
           } else if (res.error) {
             alert("Invalid Email or password");
           }
@@ -101,25 +120,100 @@ var store = new vuex.Store({
     changeLog({ commit, dispatch }) {
       commit('changeLog')
     },
-  
+
     //login items ^^^^^^
-    getAuth({commit, dispatch}) {
+    getAuth({ commit, dispatch }) {
       auth('authenticate')
-      .then(res => {
-        if (!res.data.data) {
-          return router.push('/')
-        }
+        .then(res => {
+          if (!res.data.data) {
+            return router.push('/')
+          }
           commit('getAuth', res.data.data)
           // stateuser = res.data.data
-          router.push('users/' + res.data._id + '/home')
-          // router.replace('userboards')
-  
-      })
+          commit('changeLog')
+        })
         .catch(err => {
           console.log(err)
           router.push('/')
         })
     },
+
+    getKeepsHome({ commit, dispatch }) {
+      api(`home/`)
+        .then(res => {
+          commit('setKeeps', res.data.data)
+          router.push(`home`)
+        })
+        // .then(res=>{
+
+        // })
+        // router.replace('userboards')
+
+
+        .catch(err => {
+          commit('handleError', err)
+        })
+    },
+    postKeepHome({ commit, dispatch }, keep) {
+      api.post('home/', keep)
+        .then(res => {
+          dispatch('getKeepsHome')
+        })
+        .catch(err => {
+          commit('handleError', err)
+        })
+    },
+    getKeepHome({ commit, dispatch }, keepId) {
+      api(`home/ + ${keepId}`)
+        .then(res => {
+          commit('setActiveKeep', res.data.data)
+        })
+        .catch(err => {
+          commit('handleError', err)
+        })
+    },
+    getVaults({ commit, dispatch }, userId) {
+      api(`vaults`)
+        .then(res => {
+          commit('setVaults', res.data.data)
+        })
+        .catch(err => {
+          commit('handleError', err)
+        })
+    },
+    createVault({ commit, dispatch }, vault) {
+      api.post(`vaults`, vault)
+        .then(res => {
+          dispatch('getVaults', vault.creatorId)
+        })
+        .catch(err => {
+          commit('handleError', err)
+        })
+    },
+    removeVault({ commit, dispatch }, vaultId) {
+      // console.log(list)  
+      
+      api.delete(`vaults/${vault._id}`)
+        .then(res => {
+          dispatch('getVaults', vault.userId)
+        })
+        .catch(err => {
+          commit('handleError', err)
+        })
+    },
+    getVault({commit, dispatch}, vault){
+      api(`vaults/${vault._id}`)
+      .then(res => {
+        commit('setActiveVault', res.data.data)
+      })
+      .catch(err => {
+        commit('handleError', err)
+      })
+    },
+
+  
+
+
   }
 
 

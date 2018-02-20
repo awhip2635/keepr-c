@@ -6,31 +6,27 @@
 
                     <div class="modal-header">
                         <slot name="header">
-                            <button class="exit btn btn-default glyphicon glyphicon-remove" @click="exit"></button>
+                            <button class="exit btn  glyphicon glyphicon-remove" @click="exit"></button>
                             <center>
                                 <h4>Add To Vaults</h4>
                             </center>
                         </slot>
                     </div>
+                    <div v-for='vault in vaults'>
+                        <div class="modal-body">
 
-                    <div class="modal-body">
-                        <slot name="body">
-                            <div class="panel">
-                                <h4>Vault Name</h4>
+                            <div>
+                                <button @click="addToVault(vault)" class="vault-name btn btn-default">{{vault.name}}</button>
                             </div>
 
 
 
-                        </slot>
-                    </div>
 
-                    <div class="modal-footer">
-                        <div class="text-center">
-                            <slot name="footer">
-
-                            </slot>
                         </div>
+
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -47,7 +43,7 @@
         data() {
             return {
 
-                showModal: true
+
             }
         },
         methods: {
@@ -55,9 +51,22 @@
                 this.$emit('close')
 
             },
+            addToVault(vault) {
+                this.$store.commit('setActiveVault', vault)
+                var theKeep = this.$store.state.activeKeep
+                var currentVault = this.$store.state.activeVault
+                currentVault.keeps.push(theKeep)
+                
+            },
+        
+        },
+        mounted() {
+            this.$store.dispatch('getVaults')
         },
         computed: {
-
+            vaults() {
+                return this.$store.state.vaults
+            }
         }
     }
 
@@ -95,6 +104,8 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
         transition: all .3s ease;
         font-family: Helvetica, Arial, sans-serif;
+        overflow-y: auto;
+        height: 600px;
     }
 
     .modal-header h3 {
@@ -102,9 +113,7 @@
         color: #42b983;
     }
 
-    .modal-body {
-        margin: 20px 0;
-    }
+    .modal-body {}
 
     .modal-default-button {
         float: right;
@@ -164,5 +173,13 @@
 
     .align-right {
         padding-left: 68px;
+    }
+
+    .panel {
+        background-color: pink;
+    }
+
+    .vault-name {
+        width: 200px;
     }
 </style>

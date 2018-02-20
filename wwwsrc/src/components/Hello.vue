@@ -39,17 +39,12 @@ a {
 .hello {
  
 }
-.yo {
-   background-image: url('http://www.tinywriters.com/wp-content/uploads/2015/05/places-for-finding-photos-picjumbo-1.jpg');
-  background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    margin-top: -40px;
-    margin-bottom: -900px;
-    height: 100vh;
-}
+
 .slogan {
   padding-top:90px;
+  color: white;
+}
+div {
+  overflow-y: hidden;
 }
 </style>

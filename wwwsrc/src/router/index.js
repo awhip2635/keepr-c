@@ -28,17 +28,17 @@ export default new Router({
       component: Register
     },
     {
-      path: '/users/:userid/home',
+      path: '/home',
       name: 'HomePage',
       component: HomePage
     },
     {
-      path: '/users/:userid/vaults',
+      path: '/vaults',
       name: 'UserProfile',
       component: UserProfile
     },
     {
-      path: '/users/:userId/vaults/vaultId',
+      path: '/vaults/:vaultId',
       name: 'Vault',
       component: Vault
     }

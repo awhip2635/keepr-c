@@ -6,48 +6,52 @@
 
                     <div class="modal-header">
                         <slot name="header">
-                            <button class="exit btn btn-default glyphicon glyphicon-remove" @click="showModal = false"></button>
+                            <button class="exit btn btn-default glyphicon glyphicon-remove" @click="exit"></button>
                             <center>
                                 <h4>New Vault</h4>
                             </center>
                         </slot>
                     </div>
+                    <form @submit.prevent="newVault">
+                        <div>
 
-                    <div class="modal-body">
-                        <slot name="body">
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <h5>Name:</h5>
-
-                                </div>
-                                <div class="col-xs-6">
-                                    <input class="input-baby" type="text">
-                                </div>
-
+                            <div class="modal-body">
+                                <slot name="body">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <h5>Name:</h5>
+                                            
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <input v-model="name" class="input-baby" type="text">
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <h5>Description</h5>
+                                            
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <textarea v-model="description" class="input-baby" type="text"></textarea>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    
+                                    
+                                </slot>
                             </div>
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <h5>Description</h5>
-
+                            
+                            <div class="modal-footer">
+                                <div class="text-center">
+                                    <slot name="footer">
+                                        <button type="submit" class="btn btn-default">Submit</button>
+                                    </slot>
                                 </div>
-                                <div class="col-xs-6">
-                                    <textarea class="input-baby" type="text"></textarea>
-                                </div>
-
                             </div>
-
-
-
-                        </slot>
-                    </div>
-
-                    <div class="modal-footer">
-                        <div class="text-center">
-                            <slot name="footer">
-                                <button type="submit" class="btn btn-default">Submit</button>
-                            </slot>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -63,8 +67,10 @@
         },
         data() {
             return {
+                name: '',
+                description: ''
 
-                showModal: true
+
             }
         },
         methods: {
@@ -72,9 +78,24 @@
                 this.$emit('close')
 
             },
+            newVault() {
+                debugger
+                this.$store.dispatch('createVault', {
+                    name: this.name,
+                    description: this.description,
+                    creatorId: this.user._id
+
+                }).then(
+                    this.name = '',
+                    this.description = ''
+
+                    )
+            }
         },
         computed: {
-
+            user() {
+                return this.$store.state.user
+            }
         }
     }
 

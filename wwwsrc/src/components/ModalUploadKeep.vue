@@ -2,63 +2,66 @@
     <transition name="modal">
         <div class="modal-mask">
             <div class="modal-wrapper">
-                <div class="modal-container">
+                <form @submit.prevent="newKeep">
+                    <div class="modal-container">
 
-                    <div class="modal-header">
-                        <slot name="header">
-                            <button class="exit btn btn-default glyphicon glyphicon-remove" @click="displayModal = false"></button>
-                            <center>
-                                <h4>New Keep</h4>
-                            </center>
-                        </slot>
-                    </div>
-
-                    <div class="modal-body">
-                        <slot name="body">
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <h5>Name:</h5>
-
-                                </div>
-                                <div class="col-xs-6">
-                                    <input class="input-baby" type="text">
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <h5>Description</h5>
-
-                                </div>
-                                <div class="col-xs-6">
-                                    <textarea class="input-baby" type="text"></textarea>
-                                </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-6">
-                                    <h5>Image</h5>
-
-                                </div>
-                                <div class="col-xs-6">
-                                    <textarea class="input-baby" type="text"></textarea>
-                                </div>
-
-                            </div>
-
-
-
-                        </slot>
-                    </div>
-
-                    <div class="modal-footer">
-                        <div class="text-center">
-                            <slot name="footer">
-                                <button type="submit" class="btn btn-default">Submit</button>
+                        <div class="modal-header">
+                            <slot name="header">
+                                <button class="exit btn btn-default glyphicon glyphicon-remove" @click="exit"></button>
+                                <center>
+                                    <h4>New Keep</h4>
+                                </center>
                             </slot>
                         </div>
+
+                        <div class="modal-body">
+                            <slot name="body">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5>Name:</h5>
+
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <input v-model="name" class="input-baby" type="text">
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5>Description</h5>
+
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <textarea v-model="description" class="input-baby" type="text"></textarea>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <h5>Image</h5>
+
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <textarea v-model="image" placeholder="image url" class="input-baby" type="text"></textarea>
+                                    </div>
+
+                                </div>
+
+
+
+                            </slot>
+                        </div>
+
+                        <div class="modal-footer">
+                            <div class="text-center">
+                                <slot name="footer">
+                                    <button type="submit" class="btn btn-default">Submit</button>
+
+                                </slot>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </transition>
@@ -73,18 +76,44 @@
         },
         data() {
             return {
+                name: '',
+                description: '',
+                image: ''
 
-                displayModal: true
             }
+        },
+        mounted() {
+            this.$store.dispatch('getKeepsHome')
         },
         methods: {
             exit() {
                 this.$emit('close')
 
             },
+            newKeep() {
+                
+                this.$store.dispatch('postKeepHome', {
+                    name: this.name,
+                    description: this.description,
+                    image: this.image,
+                    creatorId: this.user._id
+
+                }).then(
+                    this.name = '',
+                    this.description = '',
+                    this.image = ''
+                    )
+
+
+
+
+
+            }
         },
         computed: {
-
+            user() {
+                return this.$store.state.user
+            }
         }
     }
 

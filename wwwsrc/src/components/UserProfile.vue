@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid yo">
         <div class="UserProfile">
             <div class="row">
                 <div class="col-xs-7 col-sm-7 col-md-7">
@@ -11,20 +11,35 @@
                 </div>
 
             </div>
-            
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="panel">
-                        <router-link :to="{name: 'Vault'}">
-                        <h2>Name</h2>
 
-                        </router-link>
-                    </div>
+            <div v-for="vault in vaults" class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <center>
+                        <div class="panel">
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                    <button @click="deleteVault(vault._id)" type="button" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-remove"></span> Remove 
+                                    </button>
+
+                                </div>
+                                <div  @click="changeToVault(vault)" class="col-xs-4 col-sm-4 col-md-4">
+                                    <h2>{{vault.name}}</h2>
+                                    <p>{{vault.description}}</p>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </center>
                 </div>
+
             </div>
 
+
         </div>
-        <modalnewvault v-if="showModal"></modalnewvault>
+        <modalnewvault v-if="showModal" @close="showModal = false"></modalnewvault>
     </div>
 
 
@@ -40,9 +55,29 @@
         },
         data() {
             return {
-            showModal: false
+                showModal: false
             }
-        }
+        },
+        mounted() {
+            this.$store.dispatch('getVaults')
+        },
+        methods: {
+            changeToVault(vault) {
+                this.$store.commit('setActiveVault', vault)
+
+                this.$router.push('/vaults/' + this.$store.state.activeVault._id)
+
+            },
+            deleteVault(vaultId){
+                debugger
+                this.$store.dispatch('removeVault', vaultId)
+            }
+        },
+        computed: {
+            vaults() {
+                return this.$store.state.vaults
+            }
+        },
     }
 
 </script>
@@ -52,9 +87,23 @@
 
 
         background-color: whitesmoke;
+        max-width: 80%;
     }
 
     .new-vault {
         margin-top: 50px;
+    }
+
+    .vaults {
+        color: white;
+    }
+
+    .yo {
+        background-image: url('http://sahara-desert-dream.com/wp-content/uploads/2015/04/desert-dream-4.jpg');
+
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        min-height: 100vh;
     }
 </style>
