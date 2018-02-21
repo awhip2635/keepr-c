@@ -73,13 +73,16 @@
 
             }
         },
+        mounted(){
+            this.$store.dispatch('getVaults')
+        },
         methods: {
             exit() {
                 this.$emit('close')
 
             },
             newVault() {
-                debugger
+               
                 this.$store.dispatch('createVault', {
                     name: this.name,
                     description: this.description,

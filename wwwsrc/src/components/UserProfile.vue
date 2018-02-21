@@ -13,12 +13,12 @@
             </div>
 
             <div v-for="vault in vaults" class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div v-if="vault.creatorId == user._id" class="col-xs-12 col-sm-12 col-md-12">
                     <center>
                         <div class="panel">
                             <div class="row">
                                 <div class="col-xs-4 col-sm-4 col-md-4">
-                                    <button @click="deleteVault(vault._id)" type="button" class="btn btn-default btn-sm">
+                                    <button @click="deleteVault(vault)" type="button" class="btn btn-default btn-sm">
                                         <span class="glyphicon glyphicon-remove"></span> Remove 
                                     </button>
 
@@ -68,15 +68,19 @@
                 this.$router.push('/vaults/' + this.$store.state.activeVault._id)
 
             },
-            deleteVault(vaultId){
+            deleteVault(vault){
                 debugger
-                this.$store.dispatch('removeVault', vaultId)
+                this.$store.dispatch('removeVault', vault)
             }
         },
         computed: {
             vaults() {
                 return this.$store.state.vaults
-            }
+            },
+            user() {
+                return this.$store.state.user
+            },
+
         },
     }
 

@@ -194,18 +194,18 @@ var store = new vuex.Store({
     createVault({ commit, dispatch }, vault) {
       api.post(`vaults`, vault)
         .then(res => {
-          dispatch('getVaults', vault.creatorId)
+          dispatch('getVaults', vault)
         })
         .catch(err => {
           commit('handleError', err)
         })
     },
-    removeVault({ commit, dispatch }, vaultId) {
+    removeVault({ commit, dispatch }, vault) {
       // console.log(list)  
       
       api.delete(`vaults/${vault._id}`)
         .then(res => {
-          dispatch('getVaults', vault.userId)
+          dispatch('getVaults', res.data)
         })
         .catch(err => {
           commit('handleError', err)
