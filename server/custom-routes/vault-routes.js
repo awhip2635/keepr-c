@@ -5,7 +5,7 @@ console.log('right page')
 module.exports = {
 
     Vault: {
-        path: '/users/:userId/vaults/:vaultId',
+        path: '/vaults/:vaultId',
         reqType: 'get',
         method(req, res, next) {
             let action = 'Find Vault'
@@ -20,7 +20,7 @@ module.exports = {
     },
 
     DeleteVault: {
-        path: '/users/:userId/vaults/:vaultId',
+        path: '/vaults/:vaultId',
         reqType: 'delete',
         method(req, res, next) {
             let action = 'Delete Vault'
@@ -33,7 +33,7 @@ module.exports = {
         }
     },
     PostVault: {
-        path: '/users/:userId/vaults',
+        path: '/vaults',
         reqType: 'post',
         method(req, res, next) {
             let action = 'Post Vault'
@@ -46,8 +46,9 @@ module.exports = {
                 })
         }
     },
+    
     PostKeepToVault: {
-        path: '/users/:userId/vaults/:vaultId/keeps',
+        path: '/:userId/vaults/:vaultId/keeps',
         reqType: 'post',
         method(req, res, next) {
             let action = 'Post Keep to Vault'
@@ -62,7 +63,7 @@ module.exports = {
     },
 
     DeleteKeepFromVault: {
-        path: '/users/:userId/vaults/:vaultId/keeps/:keepId',
+        path: '/:userId/vaults/:vaultId/keeps/:keepId',
         reqType: 'delete',
         method(req, res, next) {
             let action = 'Delete Keeps from Vault'
@@ -75,7 +76,7 @@ module.exports = {
         }
     },
     GetKeepInVault: {
-        path: '/users/:userId/vaults/:vaultId/keeps',
+        path: '/:userId/vaults/:vaultId/keeps',
         reqType: 'get',
         method(req, res, next) {
             let action = 'Find Keeps in Vault'
