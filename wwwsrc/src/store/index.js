@@ -163,8 +163,18 @@ var store = new vuex.Store({
           commit('handleError', err)
         })
     },
+    deleteKeepHome({commit, dispatch}, keep){
+      api.delete(`home/${keep._id}`)
+      .then(res => {
+        dispatch('getKeepsHome', res.data)
+      })
+      .catch(err => {
+        commit('handleError', error)
+      })
+
+    },
     getKeepHome({ commit, dispatch }, keepId) {
-      api(`home/ + ${keepId}`)
+      api(`home/ + ${keep._id}`)
         .then(res => {
           commit('setActiveKeep', res.data.data)
         })

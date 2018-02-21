@@ -13,7 +13,7 @@
                     <div class="panel">
                         <div class="row">
                             <div v-if="keep.creatorId == user._id" class="col-xs-1 col-sm-1 col-md-1">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <span @click="deleteKeepHome(keep)" class="glyphicon glyphicon-remove"></span>
                             </div>
                             <div class="col-xs-12 col-sm-12">
                                 <center>
@@ -84,6 +84,10 @@
                 this.$store.state.activeKeep = keep
                 this.showModal = true;
 
+            },
+            deleteKeepHome(keep) {
+                debugger
+                this.$store.dispatch('deleteKeepHome', keep);
             }
 
 
