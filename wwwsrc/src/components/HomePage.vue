@@ -1,16 +1,22 @@
 <template>
-    <div class="container-fluid">
-        <div class="home">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <button class="btn btn-primary" @click="displayModal = true">Upload Keep</button>
-                </div>
+    <div class="container">
 
+        <div class="row upload">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <button class="btn btn-primary" @click="displayModal = true">Upload Keep</button>
             </div>
 
+        </div>
+
+        <div>
             <div class="row">
+
                 <div class="col-xs-6 col-sm-6 col-md-4" v-for="keep in keeps">
+
+
                     <div class="panel">
+
+
                         <div class="row">
                             <div v-if="keep.creatorId == user._id" class="col-xs-1 col-sm-1 col-md-1">
                                 <span @click="deleteKeepHome(keep)" class="glyphicon glyphicon-remove"></span>
@@ -31,19 +37,21 @@
                                 </center>
 
                             </div>
-                            
-
-
-
                         </div>
+
+
+
+
                     </div>
 
                 </div>
+
             </div>
-
-
-
         </div>
+
+
+
+
 
         <modaladdtovaults v-if="showModal" @close="showModal = false"></modaladdtovaults>
         <modaluploadkeep v-if="displayModal" @close="displayModal = false"></modaluploadkeep>
@@ -100,10 +108,10 @@
 
 <style scoped>
     .panel {
-        height: 450px;
-        width: 450px;
+        min-height: 400px;
+        width: 300px;
 
-        background-color: pink;
+        background-color: #F04545;
     }
 
     .add-to-vaults {}
@@ -129,5 +137,9 @@
 
     .glyphicon-remove {
         font-size: 20px;
+    }
+
+    .upload {
+        margin-bottom: 5px;
     }
 </style>
