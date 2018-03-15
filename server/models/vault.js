@@ -7,7 +7,7 @@ var schema = new mongoose.Schema({
     description: { type: String}, 
     created: { type: Number, default: Date.now() },
     creatorId: { type: ObjectId, ref: models.user.name, required: true},
-    keeps: { type: Array, required: true, default: []}
+    keeps: { type: Array}
 });
 
 module.exports = mongoose.model(models.vault.name, schema);

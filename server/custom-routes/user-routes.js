@@ -3,7 +3,7 @@ let Vaults = require('../models/vault')
 let Keeps = require('../models/keep')
 
 module.exports = {
-  userVaults: {
+  GetVaults: {
     path: '/vaults',
     reqType: 'get',
     method(req, res, next) {

@@ -48,7 +48,7 @@ module.exports = {
     },
     
     PostKeepToVault: {
-        path: '/:userId/vaults/:vaultId/keeps',
+        path: '/vaults/:vaultId/keeps',
         reqType: 'post',
         method(req, res, next) {
             let action = 'Post Keep to Vault'
@@ -75,15 +75,15 @@ module.exports = {
                 })
         }
     },
-    GetKeepInVault: {
-        path: '/:userId/vaults/:vaultId/keeps',
+    VaultKeeps: {
+        path: '/vaults/:vaultId/keeps',
         reqType: 'get',
         method(req, res, next) {
             let action = 'Find Keeps in Vault'
 
-            Keep.find({ vaultId: req.params.vaultId })
-                .then(keep => {
-                    res.send(handleResponse(action, keep))
+            Keeps.find({ vaultId: { $in: [req.params.vaultId] } })
+                .then(keeps => {
+                    res.send(handleResponse(action, keeps))
                 }).catch(error => {
                     return next(handleResponse(action, null, error))
                 })

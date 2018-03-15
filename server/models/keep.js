@@ -3,12 +3,12 @@ let mongoose = require('mongoose')
 let ObjectId = mongoose.Schema.ObjectId
 
 var schema = new mongoose.Schema({
-    name: { type: String, required: true},
+    name: { type: String, required: false},
     description: { type: String, required: false},
     image: { type: String, required: true},
     //Relationships
     creatorId: { type: ObjectId, ref: models.user.name, required: true},
-    vaultId: [{ type: ObjectId, ref: models.vault.name, required: true, default: null  }]
+    vaultId: [{ type: ObjectId, ref: models.vault.name, required: true  }]
 });
 
 module.exports = mongoose.model(models.keep.name, schema);
